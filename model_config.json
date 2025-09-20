@@ -1,0 +1,56 @@
+{
+  "baseline_dlm_dti": {
+    "drug_encoder": {
+      "model": "ChemBERTa",
+      "layers": 6,
+      "hidden_units": 768,
+      "parameters": "85M",
+      "max_sequence_length": 512
+    },
+    "protein_encoder": {
+      "model": "ProtBERT",
+      "layers": 18,
+      "hidden_units": 1024,
+      "parameters": "420M",
+      "max_sequence_length": 545
+    },
+    "interaction_head": {
+      "layers": [
+        1792,
+        512,
+        128,
+        1
+      ],
+      "parameters": "1.2M"
+    },
+    "total_parameters": "506.2M",
+    "vram_requirement": "7.7GB"
+  },
+  "enhanced_dlm_dti": {
+    "additional_components": {
+      "cross_modal_pretraining": true,
+      "contrastive_learning": true,
+      "adaptive_sampling": true,
+      "memory_optimization": {
+        "gradient_checkpointing": true,
+        "queue_based_sampling": true,
+        "queue_size": 4096
+      }
+    },
+    "loss_weights": {
+      "alpha_hint": 0.5,
+      "beta_contrastive": 0.3,
+      "gamma_reconstruction": 0.2
+    },
+    "training_config": {
+      "pretraining_epochs": 50,
+      "finetuning_epochs": 100,
+      "batch_size_pretrain": 64,
+      "batch_size_finetune": 32,
+      "learning_rate": 2e-05,
+      "temperature": 0.1
+    },
+    "vram_requirement": "7.9GB",
+    "training_time_increase": "13%"
+  }
+}
